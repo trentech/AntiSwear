@@ -25,7 +25,6 @@ public class EventHandler {
 
 	@Listener
 	public void onMessageEvent(MessageSinkEvent.Chat event){
-
 		if(!event.getCause().first(Player.class).isPresent()){
 			return;
 		}
@@ -47,7 +46,13 @@ public class EventHandler {
 			if(!StringUtils.containsIgnoreCase(msg, item)){
 				continue;
 			}
-
+			
+			if(config.getNode("Options", "Replace-Message", "Enable").getBoolean()){
+				msg = "<" + player.getName() + "> " + config.getNode("Options", "Replace-Message", "Message").getString();
+				swear = true;
+				break;
+			}
+			
 			char[] word = item.toCharArray();
 			for (int i = 1; i < word.length - 1; i++){
 			    word[i] = '*';
@@ -108,7 +113,7 @@ public class EventHandler {
 			event.setCancelled(true);
 			return;
 		}
-		
+
 		event.setMessage(Texts.of(msg));
 	}
 	

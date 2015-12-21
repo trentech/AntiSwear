@@ -72,6 +72,10 @@ public class ConfigManager {
 				config.getNode("Options", "Kick", "Enable").setValue(false);
 				config.getNode("Options", "Kick", "Message").setValue("Kicked for cursing.");
 			}
+			if(config.getNode("Options", "Replace-Message").getString() == null) {
+				config.getNode("Options", "Replace-Message", "Enable").setValue(false);
+				config.getNode("Options", "Replace-Message", "Message").setValue("I have a potty mouth.");
+			}
 			if(config.getNode("Options", "Ban").getString() == null) {
 				config.getNode("Options", "Ban", "Enable").setValue(false);
 				config.getNode("Options", "Ban", "Temporary", "Enable").setValue(true);

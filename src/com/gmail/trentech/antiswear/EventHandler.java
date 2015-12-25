@@ -1,15 +1,15 @@
 package com.gmail.trentech.antiswear;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.command.MessageSinkEvent;
+import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
@@ -24,15 +24,10 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class EventHandler {
 
 	@Listener
-	public void onMessageEvent(MessageSinkEvent.Chat event){
-		if(!event.getCause().first(Player.class).isPresent()){
-			return;
-		}
-		Player player = event.getCause().first(Player.class).get();
-
-		if(player.hasPermission("AntiSwear.ignore")){
-			return;
-		}
+	public void onMessageEvent(MessageSinkEvent.Chat event, @First Player player){
+//		if(player.hasPermission("AntiSwear.ignore")){
+//			return;
+//		}
 		
 		Text text = event.getMessage();
 		String msg = Texts.toPlain(text);
@@ -43,7 +38,7 @@ public class EventHandler {
 		List<String> list = config.getNode("Words").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
 		
 		for(String item : list){
-			if(!StringUtils.containsIgnoreCase(msg, item)){
+			if(!msg.toLowerCase().matches(".*\\b" + item.toLowerCase() + "\\b.*")){
 				continue;
 			}
 			
@@ -85,14 +80,14 @@ public class EventHandler {
 				
 				UserStorageService userStorage = Main.getGame().getServiceManager().provide(UserStorageService.class).get();
 				BanService banService = Main.getGame().getServiceManager().provide(BanService.class).get();
-				
+
 				User user = userStorage.get(player.getUniqueId()).get();
 
 				Builder builder = Ban.builder();
 				builder.type(BanTypes.PROFILE).reason(reason).profile(user.getProfile());
 				
-				if(config.getNode("Options", "Ban", "Temporary", "Enable").getBoolean()){
-					builder.expirationDate(new Date(new Date().getTime() + getTimeInMilliSeconds(config.getNode("Options", "Ban", "Temporary", "Time").getString())));
+				if(config.getNode("Options", "Ban", "Temporary", "Enable").getBoolean()){				
+					builder.expirationDate(Instant.now().plusMillis(getTimeInMilliSeconds(config.getNode("Options", "Ban", "Temporary", "Time").getString())));
 				}
 
 				banService.addBan(builder.build());

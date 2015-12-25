@@ -25,9 +25,9 @@ public class EventHandler {
 
 	@Listener
 	public void onMessageEvent(MessageSinkEvent.Chat event, @First Player player){
-//		if(player.hasPermission("AntiSwear.ignore")){
-//			return;
-//		}
+		if(player.hasPermission("AntiSwear.ignore")){
+			return;
+		}
 		
 		Text text = event.getMessage();
 		String msg = Texts.toPlain(text);

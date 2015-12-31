@@ -25,15 +25,15 @@ public class CMDRemove implements CommandExecutor {
 		}
 		String word = args.<String>getOne("word").get();
 		
-		ConfigManager loader = new ConfigManager();		
-		ConfigurationNode config = loader.getConfig();
+		ConfigManager configManager = new ConfigManager();		
+		ConfigurationNode config = configManager.getConfig();
 		
 		List<String> list = config.getNode("Words").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
 		
 		if(list.contains(word)){
 			list.remove(word);
 			config.getNode("Words").setValue(list);
-			loader.save();
+			configManager.save();
 		}
 		
 		src.sendMessage(Texts.of(TextColors.DARK_GREEN, "Removed ", word, " to censor list"));

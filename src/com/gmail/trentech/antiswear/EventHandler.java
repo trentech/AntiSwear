@@ -64,15 +64,15 @@ public class EventHandler {
 		
 		int value = 1;
 		
-		ConfigManager playerLoader = new ConfigManager("players.conf"); 
-		ConfigurationNode playerConfig = playerLoader.getConfig();
+		ConfigManager playerConfigManager = new ConfigManager("players.conf"); 
+		ConfigurationNode playerConfig = playerConfigManager.getConfig();
 		
 		if(playerConfig.getNode(player.getUniqueId().toString(), "Strikes").getString() != null){
 			value = playerConfig.getNode(player.getUniqueId().toString(), "Strikes").getInt() + 1;
 		}
 		
 		playerConfig.getNode(player.getUniqueId().toString(), "Strikes").setValue(value);		
-		playerLoader.save();
+		playerConfigManager.save();
 		
 		if(config.getNode("Options", "Ban", "Enable").getBoolean()){
 			if(config.getNode("Options", "Ban", "Strikes").getInt() <= value){
@@ -95,7 +95,7 @@ public class EventHandler {
 				player.kick(reason);
 				
 				playerConfig.getNode(player.getUniqueId().toString(), "Strikes").setValue(0);
-				playerLoader.save();
+				playerConfigManager.save();
 				
 				event.setCancelled(true);
 				return;
@@ -125,7 +125,7 @@ public class EventHandler {
 			}else if(t.matches("(\\d+)[d]$")) {
 				milliSeconds = TimeUnit.DAYS.toMillis(Integer.parseInt(t.replace("d", ""))) + milliSeconds;
 			}else if(t.matches("(\\d+)[w]$")) {
-				milliSeconds = (TimeUnit.DAYS.toMillis(Integer.parseInt(t.replace("d", ""))) * 7) + milliSeconds;
+				milliSeconds = (TimeUnit.DAYS.toMillis(Integer.parseInt(t.replace("w", ""))) * 7) + milliSeconds;
 			}else if(t.matches("(\\d+)[mo]$")) {
 				milliSeconds = (TimeUnit.DAYS.toMillis(Integer.parseInt(t.replace("mo", ""))) * 30) + milliSeconds;
 			}else if(t.matches("(\\d+)[y]$")) {

@@ -8,12 +8,11 @@ import java.util.stream.Collectors;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.command.MessageSinkEvent;
 import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.message.MessageEvent;
 import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.util.ban.Ban.Builder;
@@ -24,13 +23,16 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class EventHandler {
 
 	@Listener
-	public void onMessageEvent(MessageSinkEvent.Chat event, @First Player player){
+	public void onMessageEvent(MessageEvent event, @First Player player){
 		if(player.hasPermission("AntiSwear.ignore")){
 			return;
 		}
+
+		if(!event.getMessage().isPresent()){
+			return;
+		}
 		
-		Text text = event.getMessage();
-		String msg = Texts.toPlain(text);
+		String msg = event.getMessage().get().toPlain();
 
 		boolean swear = false;
 		
@@ -76,7 +78,7 @@ public class EventHandler {
 		
 		if(config.getNode("Options", "Ban", "Enable").getBoolean()){
 			if(config.getNode("Options", "Ban", "Strikes").getInt() <= value){
-				Text reason = Texts.of(config.getNode("Options", "Ban", "Message").getString());
+				Text reason = Text.of(config.getNode("Options", "Ban", "Message").getString());
 				
 				UserStorageService userStorage = Main.getGame().getServiceManager().provide(UserStorageService.class).get();
 				BanService banService = Main.getGame().getServiceManager().provide(BanService.class).get();
@@ -96,20 +98,18 @@ public class EventHandler {
 				
 				playerConfig.getNode(player.getUniqueId().toString(), "Strikes").setValue(0);
 				playerConfigManager.save();
-				
-				event.setCancelled(true);
+
 				return;
 			}
-			player.sendMessage(Texts.of(TextColors.YELLOW, "Strikes: ", value));
+			player.sendMessage(Text.of(TextColors.YELLOW, "Strikes: ", value));
 		}
 
 		if(config.getNode("Options", "Kick", "Enable").getBoolean()){
-			player.kick(Texts.of(config.getNode("Options", "Kick", "Message").getString()));
-			event.setCancelled(true);
+			player.kick(Text.of(config.getNode("Options", "Kick", "Message").getString()));
 			return;
 		}
 
-		event.setMessage(Texts.of(msg));
+		event.setMessage(Text.of(msg));
 	}
 	
 	public long getTimeInMilliSeconds(String time) {

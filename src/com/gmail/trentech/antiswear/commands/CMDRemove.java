@@ -8,7 +8,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.antiswear.ConfigManager;
@@ -20,7 +20,7 @@ public class CMDRemove implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		if(!args.hasAny("word")) {
-			src.sendMessage(Texts.of(TextColors.GOLD, "/antiswear add <word>"));
+			src.sendMessage(Text.of(TextColors.GOLD, "/antiswear add <word>"));
 			return CommandResult.empty();
 		}
 		String word = args.<String>getOne("word").get();
@@ -36,7 +36,7 @@ public class CMDRemove implements CommandExecutor {
 			configManager.save();
 		}
 		
-		src.sendMessage(Texts.of(TextColors.DARK_GREEN, "Removed ", word, " to censor list"));
+		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Removed ", word, " to censor list"));
 		
 		return CommandResult.success();
 	}

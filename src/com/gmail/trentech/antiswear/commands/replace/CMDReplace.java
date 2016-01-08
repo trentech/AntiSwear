@@ -1,4 +1,4 @@
-package com.gmail.trentech.antiswear.commands;
+package com.gmail.trentech.antiswear.commands.replace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.antiswear.Main;
 
-public class CMDAntiSwear implements CommandExecutor {
+public class CMDReplace implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -24,25 +24,9 @@ public class CMDAntiSwear implements CommandExecutor {
 		pages.title(Text.builder().color(TextColors.DARK_PURPLE).append(Text.of(TextColors.GOLD, "Command List")).build());
 		
 		List<Text> list = new ArrayList<>();
-		
-		if(src.hasPermission("antiswear.cmd.antiswear.add")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear add <word>"));
-		}
-		if(src.hasPermission("antiswear.cmd.antiswear.remove")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear remove <word>"));
-		}
-		if(src.hasPermission("antiswear.cmd.antiswear.ban")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear ban"));
-		}
-		if(src.hasPermission("antiswear.cmd.antiswear.tempban")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear tempban"));
-		}
-		if(src.hasPermission("antiswear.cmd.antiswear.kick")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear kick"));
-		}
-		if(src.hasPermission("antiswear.cmd.antiswear.replace")) {
-			list.add(Text.of(TextColors.GOLD, "/antiswear replace"));
-		}
+
+		list.add(Text.of(TextColors.GOLD, "/antiswear replace enable <value>"));
+		list.add(Text.of(TextColors.GOLD, "/antiswear replace message <value>"));
 
 		pages.contents(list);
 		

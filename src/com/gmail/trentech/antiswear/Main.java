@@ -15,7 +15,10 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 import com.gmail.trentech.antiswear.commands.CommandManager;
 
-@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION)
+import me.flibio.updatifier.Updatifier;
+
+@Updatifier(repoName = Resource.ID, repoOwner = "TrenTech", version = Resource.VERSION)
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, dependencies = "after: Updatifier")
 public class Main {
 
 	private static Game game;

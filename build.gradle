@@ -7,8 +7,13 @@ repositories {
         name 'Sponge maven repo'
         url 'http://repo.spongepowered.org/maven'
     }
+	maven {
+        name 'jitpack.io'
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
     compile "org.spongepowered:spongeapi:3.1.0-SNAPSHOT"
+	compile "com.github.Flibio:Updatifier:v1.2.0"
 }

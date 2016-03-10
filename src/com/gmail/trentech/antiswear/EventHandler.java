@@ -28,11 +28,7 @@ public class EventHandler {
 			return;
 		}
 
-		if(!event.getMessage().isPresent()){
-			return;
-		}
-		
-		String msg = event.getMessage().get().toPlain();
+		String msg = event.getMessage().toPlain();
 
 		boolean swear = false;
 		

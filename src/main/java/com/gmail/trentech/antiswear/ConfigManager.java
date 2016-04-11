@@ -68,20 +68,24 @@ public class ConfigManager {
 				
 				config.getNode("Words").setValue(list);
 			}
-			if(config.getNode("Options", "Kick").getString() == null) {
+			if(config.getNode("Options", "Kick").isVirtual()) {
 				config.getNode("Options", "Kick", "Enable").setValue(false);
 				config.getNode("Options", "Kick", "Message").setValue("Kicked for cursing.");
 			}
-			if(config.getNode("Options", "Replace-Message").getString() == null) {
+			if(config.getNode("Options", "Replace-Message").isVirtual()) {
 				config.getNode("Options", "Replace-Message", "Enable").setValue(false);
 				config.getNode("Options", "Replace-Message", "Message").setValue("I have a potty mouth.");
 			}
-			if(config.getNode("Options", "Ban").getString() == null) {
+			if(config.getNode("Options", "Ban").isVirtual()) {
 				config.getNode("Options", "Ban", "Enable").setValue(false);
 				config.getNode("Options", "Ban", "Temporary", "Enable").setValue(true);
 				config.getNode("Options", "Ban", "Temporary", "Time").setValue("1h");
 				config.getNode("Options", "Ban", "Strikes").setValue(3);
 				config.getNode("Options", "Ban", "Message").setValue("Banned for cursing.");
+			}
+			if(config.getNode("Options", "Command").isVirtual()){
+				config.getNode("Options", "Command", "Enable").setValue(false);
+				config.getNode("Options", "Command", "Run").setValue("give @p minecraft:rotten_flesh");
 			}
 			save();
 		}

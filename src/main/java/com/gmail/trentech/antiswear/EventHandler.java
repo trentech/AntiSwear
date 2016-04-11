@@ -14,6 +14,7 @@ import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.util.ban.Ban.Builder;
 import org.spongepowered.api.util.ban.BanTypes;
@@ -28,7 +29,7 @@ public class EventHandler {
 			return;
 		}
 
-		String msg = event.getMessage().toPlain();
+		String msg = TextSerializers.FORMATTING_CODE.serialize(event.getMessage());
 
 		boolean swear = false;
 		
@@ -105,7 +106,11 @@ public class EventHandler {
 			return;
 		}
 
-		event.setMessage(Text.of(msg));
+		if(config.getNode("Options", "Command", "Enable").getBoolean()){
+			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), config.getNode("Options", "Command", "Run").getString());
+		}
+		
+		event.setMessage(TextSerializers.FORMATTING_CODE.deserialize(msg));
 	}
 	
 	public long getTimeInMilliSeconds(String time) {

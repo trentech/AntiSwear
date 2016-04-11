@@ -1,4 +1,4 @@
-package com.gmail.trentech.antiswear.commands.kick;
+package com.gmail.trentech.antiswear.commands.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.antiswear.Main;
 
-public class CMDKick implements CommandExecutor {
+public class CMDCommand implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -25,8 +25,8 @@ public class CMDKick implements CommandExecutor {
 		
 		List<Text> list = new ArrayList<>();
 
-		list.add(Text.of(TextColors.GOLD, "/antiswear kick enable <value>"));
-		list.add(Text.of(TextColors.GOLD, "/antiswear kick message <value>"));
+		list.add(Text.of(TextColors.GOLD, "/antiswear command enable <value>"));
+		list.add(Text.of(TextColors.GOLD, "/antiswear command run <value>"));
 
 		pages.contents(list);
 		

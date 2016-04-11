@@ -8,6 +8,8 @@ import com.gmail.trentech.antiswear.commands.ban.CMDBan;
 import com.gmail.trentech.antiswear.commands.ban.CMDEnable;
 import com.gmail.trentech.antiswear.commands.ban.CMDMessage;
 import com.gmail.trentech.antiswear.commands.ban.CMDStrikes;
+import com.gmail.trentech.antiswear.commands.command.CMDCommand;
+import com.gmail.trentech.antiswear.commands.command.CMDRun;
 import com.gmail.trentech.antiswear.commands.kick.CMDKick;
 import com.gmail.trentech.antiswear.commands.tempban.CMDTempBan;
 import com.gmail.trentech.antiswear.commands.tempban.CMDTime;
@@ -71,6 +73,25 @@ public class CommandManager {
 		    .executor(new CMDKick())
 		    .build();
 	
+	public CommandSpec cmdCommandEnable = CommandSpec.builder()
+			.permission("antiswear.cmd.antiswear.command")
+			.arguments(GenericArguments.optional(GenericArguments.string(Text.of("value"))))
+			.executor(new com.gmail.trentech.antiswear.commands.command.CMDEnable())
+			.build();
+	
+	public CommandSpec cmdRun = CommandSpec.builder()
+			.permission("antiswear.cmd.antiswear.command")
+			.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("value"))))
+			.executor(new CMDRun())
+			.build();
+	
+	public CommandSpec cmdCommand = CommandSpec.builder()
+		    .permission("antiswear.cmd.antiswear.command")
+		    .child(cmdCommandEnable, "enable", "e")
+		    .child(cmdRun, "run", "r")
+		    .executor(new CMDCommand())
+		    .build();
+	
 	public CommandSpec cmdBanEnable = CommandSpec.builder()
 			.permission("antiswear.cmd.antiswear.ban")
 			.arguments(GenericArguments.optional(GenericArguments.string(Text.of("value"))))
@@ -120,6 +141,7 @@ public class CommandManager {
 			.child(cmdTempBan, "tempban", "t")
 			.child(cmdKick, "kick", "k")
 			.child(cmdReplace, "replace", "r")
+			.child(cmdCommand, "command", "c")
 			.executor(new CMDAntiSwear())
 			.build();
 }

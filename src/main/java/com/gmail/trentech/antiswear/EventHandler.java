@@ -107,7 +107,7 @@ public class EventHandler {
 		}
 
 		if(config.getNode("Options", "Command", "Enable").getBoolean()){
-			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), config.getNode("Options", "Command", "Run").getString());
+			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), config.getNode("Options", "Command", "Run").getString().replaceAll("@p", player.getName()));
 		}
 		
 		event.setMessage(TextSerializers.FORMATTING_CODE.deserialize(msg));

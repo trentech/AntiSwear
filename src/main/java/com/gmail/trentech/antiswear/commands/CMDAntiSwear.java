@@ -43,7 +43,10 @@ public class CMDAntiSwear implements CommandExecutor {
 		if(src.hasPermission("antiswear.cmd.antiswear.replace")) {
 			list.add(Text.of(TextColors.GOLD, "/antiswear replace"));
 		}
-
+		if(src.hasPermission("antiswear.cmd.antiswear.command")) {
+			list.add(Text.of(TextColors.GOLD, "/antiswear command"));
+		}
+		
 		pages.contents(list);
 		
 		pages.sendTo(src);

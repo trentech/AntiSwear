@@ -13,6 +13,7 @@ import org.spongepowered.api.event.message.MessageEvent;
 import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.TextTemplate;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.util.ban.Ban;
@@ -29,7 +30,7 @@ public class EventHandler {
 			return;
 		}
 
-		String msg = TextSerializers.FORMATTING_CODE.serialize(event.getMessage());
+		String msg = TextSerializers.FORMATTING_CODE.serialize(event.getFormatter().getBody().toText());
 
 		boolean swear = false;
 		
@@ -42,7 +43,7 @@ public class EventHandler {
 			}
 			
 			if(config.getNode("Options", "Replace-Message", "Enable").getBoolean()){
-				msg = "<" + player.getName() + "> " + config.getNode("Options", "Replace-Message", "Message").getString();
+				msg = config.getNode("Options", "Replace-Message", "Message").getString();
 				swear = true;
 				break;
 			}
@@ -98,6 +99,7 @@ public class EventHandler {
 
 				return;
 			}
+
 			player.sendMessage(Text.of(TextColors.YELLOW, "Strikes: ", value));
 		}
 
@@ -110,7 +112,8 @@ public class EventHandler {
 			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), config.getNode("Options", "Command", "Run").getString().replaceAll("@p", player.getName()));
 		}
 		
-		event.setMessage(TextSerializers.FORMATTING_CODE.deserialize(msg));
+		TextTemplate template = TextTemplate.of(TextSerializers.FORMATTING_CODE.deserialize(msg));
+		event.getFormatter().setBody(template);
 	}
 	
 	public long getTimeInMilliSeconds(String time) {

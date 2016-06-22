@@ -16,48 +16,48 @@ public class CMDTime implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("value")) {
+		if (!args.hasAny("value")) {
 			src.sendMessage(Text.of(TextColors.GOLD, "/antiswear tempban time <value>"));
 			return CommandResult.empty();
 		}
-		String value = args.<String>getOne("value").get();
+		String value = args.<String> getOne("value").get();
 
-		if(!isValid(value)){
+		if (!isValid(value)) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Not a valid time"));
 			return CommandResult.empty();
 		}
-		
-		ConfigManager configManager = new ConfigManager();		
+
+		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		config.getNode("Options", "Ban", "Temporary", "Time").setValue(value);
-		
+
 		configManager.save();
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Temporary ban time set to ", value));
-		
+
 		return CommandResult.success();
 	}
-	
+
 	public static boolean isValid(String time) {
 		String[] times = time.split(" ");
 
-		for(String t : times) {
-			if(t.matches("(\\d+)[s]$")) {
+		for (String t : times) {
+			if (t.matches("(\\d+)[s]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[m]$")) {
+			} else if (t.matches("(\\d+)[m]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[h]$")) {
+			} else if (t.matches("(\\d+)[h]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[d]$")) {
+			} else if (t.matches("(\\d+)[d]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[w]$")) {
+			} else if (t.matches("(\\d+)[w]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[mo]$")) {
+			} else if (t.matches("(\\d+)[mo]$")) {
 				continue;
-			}else if(t.matches("(\\d+)[y]$")) {
+			} else if (t.matches("(\\d+)[y]$")) {
 				continue;
-			}else{
+			} else {
 				return false;
 			}
 		}

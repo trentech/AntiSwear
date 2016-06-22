@@ -16,26 +16,26 @@ public class CMDEnable implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("value")) {
+		if (!args.hasAny("value")) {
 			src.sendMessage(Text.of(TextColors.GOLD, "/antiswear ban enable <value>"));
 			return CommandResult.empty();
 		}
-		String value = args.<String>getOne("value").get();
-		
-		if(!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false")){
+		String value = args.<String> getOne("value").get();
+
+		if (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false")) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, value, " is not a valid value"));
 			return CommandResult.empty();
 		}
-		
-		ConfigManager configManager = new ConfigManager();		
+
+		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		config.getNode("Options", "Ban", "Enable").setValue(Boolean.parseBoolean(value));
-		
+
 		configManager.save();
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Ban set to ", value));
-		
+
 		return CommandResult.success();
 	}
 

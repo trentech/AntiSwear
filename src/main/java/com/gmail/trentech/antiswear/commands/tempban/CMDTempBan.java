@@ -20,16 +20,16 @@ public class CMDTempBan implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
-		
+
 		pages.title(Text.builder().color(TextColors.DARK_PURPLE).append(Text.of(TextColors.GOLD, "Command List")).build());
-		
+
 		List<Text> list = new ArrayList<>();
 
 		list.add(Text.of(TextColors.GOLD, "/antiswear tempban enable <value>"));
 		list.add(Text.of(TextColors.GOLD, "/antiswear tempban time <value>"));
 
 		pages.contents(list);
-		
+
 		pages.sendTo(src);
 
 		return CommandResult.success();

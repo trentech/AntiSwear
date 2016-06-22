@@ -16,21 +16,21 @@ public class CMDRun implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("value")) {
+		if (!args.hasAny("value")) {
 			src.sendMessage(Text.of(TextColors.GOLD, "/antiswear command run <value>"));
 			return CommandResult.empty();
 		}
-		String value = args.<String>getOne("value").get();
+		String value = args.<String> getOne("value").get();
 
-		ConfigManager configManager = new ConfigManager();		
+		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		config.getNode("Options", "Command", "Run").setValue(value);
-		
+
 		configManager.save();
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Command set to ", value));
-		
+
 		return CommandResult.success();
 	}
 

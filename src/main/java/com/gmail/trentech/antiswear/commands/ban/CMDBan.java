@@ -20,9 +20,9 @@ public class CMDBan implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
-		
+
 		pages.title(Text.builder().color(TextColors.DARK_PURPLE).append(Text.of(TextColors.GOLD, "Command List")).build());
-		
+
 		List<Text> list = new ArrayList<>();
 
 		list.add(Text.of(TextColors.GOLD, "/antiswear ban enable <value>"));
@@ -31,7 +31,7 @@ public class CMDBan implements CommandExecutor {
 		list.add(Text.of(TextColors.GOLD, "/antiswear ban temp <value> [time]"));
 
 		pages.contents(list);
-		
+
 		pages.sendTo(src);
 
 		return CommandResult.success();

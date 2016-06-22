@@ -16,28 +16,28 @@ public class CMDStrikes implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("value")) {
+		if (!args.hasAny("value")) {
 			src.sendMessage(Text.of(TextColors.GOLD, "/antiswear ban strikes <value>"));
 			return CommandResult.empty();
 		}
-		String value = args.<String>getOne("value").get();
-		
-		try{
+		String value = args.<String> getOne("value").get();
+
+		try {
 			Integer.parseInt(value);
-		}catch(Exception e){
+		} catch (Exception e) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, value, " is not a valid value"));
 			return CommandResult.empty();
 		}
 
-		ConfigManager configManager = new ConfigManager();		
+		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		config.getNode("Options", "Ban", "Strikes").setValue(Integer.parseInt(value));
-		
+
 		configManager.save();
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Ban set to ", value));
-		
+
 		return CommandResult.success();
 	}
 

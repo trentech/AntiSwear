@@ -16,19 +16,18 @@ public class ConfigManager {
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
 
 	public ConfigManager(String configName) {
-		String folder = "config/antiswear/";
+		String folder = "config" + File.separator + Resource.NAME.toLowerCase();
 		if (!new File(folder).isDirectory()) {
 			new File(folder).mkdirs();
 		}
-		file = new File(folder + configName);
+		file = new File(folder, configName);
 
 		create();
 		load();
-		init();
 	}
 
 	public ConfigManager() {
-		String folder = "config/antiswear/";
+		String folder = "config" + File.separator + Resource.NAME.toLowerCase();
 		if (!new File(folder).isDirectory()) {
 			new File(folder).mkdirs();
 		}
@@ -36,7 +35,6 @@ public class ConfigManager {
 
 		create();
 		load();
-		init();
 	}
 
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {

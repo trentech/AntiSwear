@@ -15,8 +15,8 @@ import com.google.inject.Inject;
 
 import me.flibio.updatifier.Updatifier;
 
-@Updatifier(repoName = Resource.ID, repoOwner = "TrenTech", version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
+@Updatifier(repoName = Resource.NAME, repoOwner = Resource.AUTHOR, version = Resource.VERSION)
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
 public class Main {
 
 	@Inject
@@ -36,7 +36,7 @@ public class Main {
 
 		getGame().getCommandManager().register(this, new CommandManager().cmdAntiSwear, "antiswear", "as");
 
-		new ConfigManager();
+		new ConfigManager().init();
 	}
 
 	public static Logger getLog() {
